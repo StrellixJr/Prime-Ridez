@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prime Ridez | Premier Vehicle Rentals in Sri Lanka</title>
+  <meta name="description" content="Prime Ridez offers self-drive rentals, chauffeured tours, airport transfers and wedding cars across Sri Lanka." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b1220'/%3E%3Cpath d='M7 20l3-7h12l3 7v3H7z' fill='%23f5b700'/%3E%3C/svg%3E" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 900: '#0b1220', 800: '#111b30', 700: '#1a2742', 600: '#25365a' },
+            gold: { 300: '#ffd95e', 400: '#fbc92d', 500: '#f5b700', 600: '#d99b00' }
+          },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'], display: ['Poppins', 'Inter', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show { opacity: 1; transform: none; }
+    .modal:not(.hidden) .panel { animation: pop .25s ease; }
+    @keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: none; } }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .floaty { animation: floaty 6s ease-in-out infinite; }
+    .word-swap { transition: opacity .35s ease, transform .35s ease; display: inline-block; }
+    .word-swap.out { opacity: 0; transform: translateY(8px); }
+    input[type=range] { accent-color: #f5b700; }
+    .scroll-hide::-webkit-scrollbar { display: none; }
+    .scroll-hide { scrollbar-width: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .floaty, .modal:not(.hidden) .panel { animation: none; }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+  <noscript><div class="bg-red-600 p-3 text-center text-white">Please enable JavaScript to use Prime Ridez.</div></noscript>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-navy-900/90 backdrop-blur-md">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <a href="#home" class="flex items-center gap-2.5" aria-label="Prime Ridez home">
+        <!-- LOGO PLACEHOLDER: replace this block with <img src="logo.png"> -->
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gold-500 text-navy-900">
+          <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor"><path d="M5 11l1.6-4.2A2 2 0 018.5 5.5h7a2 2 0 011.9 1.3L19 11h.5A1.5 1.5 0 0121 12.5V17h-2v1.5a1 1 0 01-1 1h-1a1 1 0 01-1-1V17H8v1.5a1 1 0 01-1 1H6a1 1 0 01-1-1V17H3v-4.5A1.5 1.5 0 014.5 11zm2.3 0h9.4l-1-2.7a.5.5 0 00-.5-.3H8.8a.5.5 0 00-.5.3zM6.5 14a1 1 0 100 2 1 1 0 000-2zm11 0a1 1 0 100 2 1 1 0 000-2z"/></svg>
+        </span>
+        <span class="font-display text-xl font-bold tracking-tight text-white">Prime<span class="text-gold-500">Ridez</span></span>
+      </a>
+
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Main">
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#home">Home</a>
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#fleet">Fleet Categories</a>
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#services">Services</a>
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#pricing">Pricing</a>
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#destinations">Destinations</a>
+        <a class="nav-link rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 hover:text-gold-400" href="#contact">Contact Us</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <!-- Guest buttons -->
+        <div id="guestButtons" class="hidden items-center gap-2 sm:flex">
+          <button data-open-auth="login" class="rounded-lg px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">Login</button>
+          <button data-open-auth="signup" class="rounded-lg bg-gold-500 px-4 py-2 text-sm font-bold text-navy-900 shadow transition hover:bg-gold-400">Sign Up</button>
+        </div>
+        <!-- Logged-in -->
+        <div id="userMenu" class="hidden items-center gap-3">
+          <span class="hidden text-sm text-slate-200 sm:inline">Hi, <strong id="userName" class="text-gold-400"></strong></span>
+          <button id="logoutBtn" class="rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10">Logout</button>
+        </div>
+        <button id="menuBtn" class="grid h-10 w-10 place-items-center rounded-lg text-white hover:bg-white/10 lg:hidden" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden border-t border-white/10 bg-navy-900 lg:hidden">
+      <nav class="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-3" aria-label="Mobile">
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#home">Home</a>
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#fleet">Fleet Categories</a>
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#services">Services</a>
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#pricing">Pricing</a>
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#destinations">Destinations</a>
+        <a class="mobile-link rounded-lg px-3 py-2.5 text-slate-200 hover:bg-white/10" href="#contact">Contact Us</a>
+        <div id="mobileGuest" class="mt-2 grid grid-cols-2 gap-2 sm:hidden">
+          <button data-open-auth="login" class="rounded-lg border border-white/20 py-2.5 font-semibold text-white">Login</button>
+          <button data-open-auth="signup" class="rounded-lg bg-gold-500 py-2.5 font-bold text-navy-900">Sign Up</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section id="home" class="relative overflow-hidden bg-navy-900 pb-24 pt-28 text-white sm:pt-32">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -left-24 top-10 h-80 w-80 rounded-full bg-gold-500/20 blur-3xl"></div>
+        <div class="absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-sky-500/20 blur-3xl"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,.07)_1px,transparent_0)] [background-size:28px_28px]"></div>
+        <svg class="floaty absolute -right-10 top-24 hidden w-[34rem] text-white/5 xl:block" viewBox="0 0 220 110" fill="currentColor"><path d="M12 82V60Q12 52 22 50L44 46L60 24Q63 20 70 20H160Q168 20 172 26L184 46L202 50Q210 52 210 62V82Z"/><circle cx="58" cy="82" r="15"/><circle cx="166" cy="82" r="15"/></svg>
+      </div>
+
+      <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full border border-gold-500/40 bg-gold-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold-300">
+            <span class="h-1.5 w-1.5 rounded-full bg-gold-400"></span> Sri Lanka's premier vehicle rentals
+          </span>
+          <h1 class="mt-5 font-display text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+            Experience the <span class="text-gold-500">Ultimate Journey</span> with Prime Ridez
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg text-slate-300">
+            Perfect for <span id="wordSwap" class="word-swap font-semibold text-white">Self Drive</span> &mdash; from budget hatchbacks to chauffeur-driven luxury vans, island-wide.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-300">
+            <span class="flex items-center gap-2"><span class="text-gold-400">&#10003;</span> Transparent per-km pricing</span>
+            <span class="flex items-center gap-2"><span class="text-gold-400">&#10003;</span> Experienced local drivers</span>
+            <span class="flex items-center gap-2"><span class="text-gold-400">&#10003;</span> 24/7 roadside support</span>
+          </div>
+        </div>
+
+        <!-- Booking / search widget -->
+        <form id="searchForm" class="relative mt-10 rounded-2xl bg-white p-4 text-slate-800 shadow-2xl shadow-black/30 sm:p-6" novalidate>
+          <div class="scroll-hide -mx-1 flex gap-2 overflow-x-auto px-1 pb-1" role="radiogroup" aria-label="Service type" id="serviceTabs"></div>
+
+          <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <label class="block lg:col-span-1">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Pickup location</span>
+              <input id="pickupLoc" list="locations" placeholder="e.g. Negombo" autocomplete="off" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" />
+            </label>
+            <label class="block lg:col-span-1">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Drop-off location</span>
+              <input id="dropLoc" list="locations" placeholder="e.g. Kandy" autocomplete="off" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" />
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Pickup date &amp; time</span>
+              <input id="pickupDT" type="datetime-local" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" />
+            </label>
+            <label class="block">
+              <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Return date &amp; time</span>
+              <input id="returnDT" type="datetime-local" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" />
+            </label>
+            <div class="flex items-end">
+              <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg bg-navy-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-navy-700 focus:outline-none focus:ring-2 focus:ring-gold-500">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M20 20l-3.5-3.5"/></svg>
+                Search vehicles
+              </button>
+            </div>
+          </div>
+          <p id="searchError" class="mt-3 hidden rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert"></p>
+          <datalist id="locations">
+            <option value="Bandaranaike International Airport (CMB)"></option>
+            <option value="Colombo"></option><option value="Negombo"></option><option value="Kandy"></option>
+            <option value="Galle"></option><option value="Mirissa"></option><option value="Ella"></option>
+            <option value="Sigiriya"></option><option value="Nuwara Eliya"></option><option value="Anuradhapura"></option>
+            <option value="Trincomalee"></option><option value="Jaffna"></option>
+          </datalist>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== FLEET ===================== -->
+    <section id="fleet" class="scroll-mt-16 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-gold-600">Our fleet</p>
+          <h2 class="mt-2 font-display text-3xl font-bold text-navy-900 sm:text-4xl">Pick your class</h2>
+          <p class="mt-3 text-slate-600">Three tiers built around your budget, comfort and group size.</p>
+        </div>
+
+        <div class="reveal mt-8 grid gap-4 md:grid-cols-3" id="tierCards"></div>
+
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="scroll-hide flex gap-2 overflow-x-auto" id="fleetTabs" role="tablist" aria-label="Fleet category"></div>
+          <p id="fleetSummary" class="text-sm text-slate-500" aria-live="polite"></p>
+        </div>
+
+        <div id="fleetGrid" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="fleetEmpty" class="mt-6 hidden rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+          <p class="font-semibold text-navy-900">No vehicles match this search.</p>
+          <p class="mt-1 text-sm text-slate-500">Try another service type or category.</p>
+          <button id="resetFilters" class="mt-4 rounded-lg bg-navy-900 px-4 py-2 text-sm font-semibold text-white hover:bg-navy-700">Show all vehicles</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section id="services" class="scroll-mt-16 bg-white py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-gold-600">What we offer</p>
+          <h2 class="mt-2 font-display text-3xl font-bold text-navy-900 sm:text-4xl">Services for every journey</h2>
+        </div>
+        <div id="serviceGrid" class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PRICING ===================== -->
+    <section id="pricing" class="scroll-mt-16 bg-navy-900 py-20 text-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-gold-400">Simple pricing</p>
+          <h2 class="mt-2 font-display text-3xl font-bold sm:text-4xl">Pay a fixed rate, then only per km</h2>
+          <p class="mt-3 text-slate-300">Every tier includes the first 50 KM in the fixed rate. After that, a clear per-kilometre rate applies.</p>
+        </div>
+
+        <div id="pricingCards" class="mt-12 grid gap-6 md:grid-cols-3"></div>
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-5">
+          <!-- Comparison table -->
+          <div class="reveal overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 lg:col-span-3">
+            <div class="px-5 pt-5">
+              <h3 class="font-display text-lg font-bold">Quick comparison</h3>
+              <p class="text-sm text-slate-400">Sample totals at common distances.</p>
+            </div>
+            <div class="overflow-x-auto p-2 sm:p-5">
+              <table class="w-full min-w-[480px] text-left text-sm" id="compareTable"></table>
+            </div>
+          </div>
+
+          <!-- Fare estimator -->
+          <div id="estimator" class="reveal rounded-2xl bg-white p-6 text-slate-800 shadow-xl lg:col-span-2">
+            <h3 class="font-display text-xl font-bold text-navy-900">Fare estimator</h3>
+            <p class="text-sm text-slate-500">Pick a class and enter your total distance.</p>
+
+            <label class="mt-5 block text-xs font-semibold uppercase tracking-wide text-slate-500" for="calcTier">Vehicle class</label>
+            <select id="calcTier" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30"></select>
+
+            <label class="mt-4 block text-xs font-semibold uppercase tracking-wide text-slate-500" for="calcKm">Estimated distance (KM)</label>
+            <div class="mt-1 flex items-center gap-3">
+              <input id="calcKm" type="number" min="0" max="5000" step="1" value="120" inputmode="numeric" class="w-28 rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" />
+              <input id="calcRange" type="range" min="0" max="1000" step="5" value="120" class="w-full" aria-label="Distance slider" />
+            </div>
+            <div class="mt-3 flex flex-wrap gap-2" id="kmChips"></div>
+
+            <dl class="mt-5 space-y-2 rounded-xl bg-slate-50 p-4 text-sm">
+              <div class="flex justify-between"><dt class="text-slate-500">Fixed rate (first 50 KM)</dt><dd id="outFixed" class="font-semibold"></dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Extra distance</dt><dd id="outExtraKm" class="font-semibold"></dd></div>
+              <div class="flex justify-between"><dt class="text-slate-500">Extra charge</dt><dd id="outExtra" class="font-semibold"></dd></div>
+              <div class="flex items-end justify-between border-t border-slate-200 pt-3">
+                <dt class="font-semibold text-navy-900">Estimated total</dt>
+                <dd id="outTotal" class="font-display text-2xl font-extrabold text-navy-900"></dd>
+              </div>
+            </dl>
+            <p id="outFormula" class="mt-3 text-xs text-slate-500"></p>
+            <p class="mt-2 text-xs text-slate-400">Estimate only. Add-ons are extra and the final fare is confirmed on actual distance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DESTINATIONS ===================== -->
+    <section id="destinations" class="scroll-mt-16 py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="reveal mx-auto max-w-2xl text-center">
+          <p class="text-sm font-bold uppercase tracking-widest text-gold-600">Explore Sri Lanka</p>
+          <h2 class="mt-2 font-display text-3xl font-bold text-navy-900 sm:text-4xl">Popular destinations</h2>
+          <p class="mt-3 text-slate-600">Distances are approximate one-way figures from Colombo. Tap "Estimate fare" to preview your cost.</p>
+        </div>
+        <div id="destGrid" class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="scroll-mt-16 bg-white py-20">
+      <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div class="reveal">
+          <p class="text-sm font-bold uppercase tracking-widest text-gold-600">Contact us</p>
+          <h2 class="mt-2 font-display text-3xl font-bold text-navy-900 sm:text-4xl">Let's plan your ride</h2>
+          <p class="mt-3 max-w-lg text-slate-600">Questions about a tour, wedding package or long-term rental? Send us a message and we'll reply quickly.</p>
+          <ul class="mt-8 space-y-4 text-sm">
+            <li class="flex items-start gap-3"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gold-500/15 text-gold-600">&#9742;</span><div><p class="font-semibold text-navy-900">Phone / WhatsApp</p><p class="text-slate-600">+94 77 000 0000 <span class="text-slate-400">(placeholder)</span></p></div></li>
+            <li class="flex items-start gap-3"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gold-500/15 text-gold-600">&#9993;</span><div><p class="font-semibold text-navy-900">Email</p><p class="text-slate-600">hello@primeridez.lk <span class="text-slate-400">(placeholder)</span></p></div></li>
+            <li class="flex items-start gap-3"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gold-500/15 text-gold-600">&#9873;</span><div><p class="font-semibold text-navy-900">Office</p><p class="text-slate-600">Negombo, Western Province, Sri Lanka</p></div></li>
+            <li class="flex items-start gap-3"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gold-500/15 text-gold-600">&#9719;</span><div><p class="font-semibold text-navy-900">Hours</p><p class="text-slate-600">Open daily, airport transfers 24/7</p></div></li>
+          </ul>
+        </div>
+
+        <form id="contactForm" class="reveal rounded-2xl bg-slate-50 p-6 shadow-sm ring-1 ring-slate-200" novalidate>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Name</span>
+              <input name="name" required class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Email</span>
+              <input name="email" type="email" required class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+          </div>
+          <label class="mt-4 block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Message</span>
+            <textarea name="message" rows="5" required class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30"></textarea></label>
+          <p id="contactMsg" class="mt-3 hidden rounded-lg px-3 py-2 text-sm" role="status"></p>
+          <button type="submit" id="contactBtn" class="mt-4 w-full rounded-lg bg-navy-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-navy-700 disabled:opacity-60">Send message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-navy-900 text-slate-400">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="grid gap-8 md:grid-cols-4">
+        <div class="md:col-span-2">
+          <p class="font-display text-xl font-bold text-white">Prime<span class="text-gold-500">Ridez</span></p>
+          <p class="mt-3 max-w-sm text-sm">Reliable, transparent vehicle rentals for locals and travellers across Sri Lanka.</p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white">Explore</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-gold-400" href="#fleet">Fleet Categories</a></li>
+            <li><a class="hover:text-gold-400" href="#services">Services</a></li>
+            <li><a class="hover:text-gold-400" href="#pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-white">Company</p>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a class="hover:text-gold-400" href="#destinations">Destinations</a></li>
+            <li><a class="hover:text-gold-400" href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-10 border-t border-white/10 pt-6 text-xs">&copy; <span id="year"></span> Prime Ridez. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- ===================== MODALS ===================== -->
+
+  <!-- Auth modal -->
+  <div id="modal-auth" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="absolute inset-0 bg-navy-900/70 backdrop-blur-sm" data-close></div>
+    <div class="panel relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+      <button class="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100" data-close aria-label="Close">&times;</button>
+      <h2 id="authTitle" class="font-display text-2xl font-bold text-navy-900">Welcome back</h2>
+      <p id="authNotice" class="mt-2 hidden rounded-lg bg-gold-500/15 px-3 py-2 text-sm text-gold-600"></p>
+
+      <div class="mt-5 grid grid-cols-2 rounded-lg bg-slate-100 p-1 text-sm font-semibold" role="tablist">
+        <button id="tabLogin" role="tab" class="rounded-md py-2 transition">Login</button>
+        <button id="tabSignup" role="tab" class="rounded-md py-2 transition">Sign Up</button>
+      </div>
+
+      <form id="loginForm" class="mt-5 space-y-4" novalidate>
+        <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Email</span>
+          <input name="email" type="email" autocomplete="email" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+        <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Password</span>
+          <input name="password" type="password" autocomplete="current-password" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+        <p class="authError hidden rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert"></p>
+        <button type="submit" class="w-full rounded-lg bg-navy-900 py-3 text-sm font-bold text-white transition hover:bg-navy-700 disabled:opacity-60">Login</button>
+      </form>
+
+      <form id="signupForm" class="mt-5 hidden space-y-4" novalidate>
+        <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Full name</span>
+          <input name="name" autocomplete="name" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Email</span>
+            <input name="email" type="email" autocomplete="email" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+          <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</span>
+            <input name="phone" type="tel" autocomplete="tel" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Password</span>
+            <input name="password" type="password" minlength="6" autocomplete="new-password" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+          <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Confirm</span>
+            <input name="confirm" type="password" minlength="6" autocomplete="new-password" required class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+        </div>
+        <label class="flex items-start gap-2 text-sm text-slate-600"><input type="checkbox" name="terms" class="mt-0.5 accent-gold-500" /> I agree to the Terms &amp; Conditions.</label>
+        <p class="authError hidden rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert"></p>
+        <button type="submit" class="w-full rounded-lg bg-gold-500 py-3 text-sm font-bold text-navy-900 transition hover:bg-gold-400 disabled:opacity-60">Create account</button>
+      </form>
+      <p class="mt-4 text-center text-xs text-slate-400">Guests can browse freely. An account is only needed to book.</p>
+    </div>
+  </div>
+
+  <!-- Vehicle details modal -->
+  <div id="modal-vehicle" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="vdName">
+    <div class="absolute inset-0 bg-navy-900/70 backdrop-blur-sm" data-close></div>
+    <div class="panel relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
+      <button class="absolute right-4 top-4 z-10 grid h-8 w-8 place-items-center rounded-full bg-white/80 text-slate-600 hover:bg-white" data-close aria-label="Close">&times;</button>
+      <div id="vdImage" class="h-56 sm:h-64"></div>
+      <div class="p-6 sm:p-8">
+        <div class="flex flex-wrap items-center gap-3">
+          <h2 id="vdName" class="font-display text-2xl font-bold text-navy-900"></h2>
+          <span id="vdBadge"></span>
+        </div>
+        <p id="vdDesc" class="mt-2 text-slate-600"></p>
+        <dl id="vdSpecs" class="mt-5 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4"></dl>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+          <div><h3 class="text-sm font-bold text-navy-900">Features</h3><ul id="vdFeatures" class="mt-2 grid gap-1.5 text-sm text-slate-600"></ul></div>
+          <div><h3 class="text-sm font-bold text-navy-900">Available for</h3><div id="vdServices" class="mt-2 flex flex-wrap gap-2"></div>
+            <div id="vdRate" class="mt-4 rounded-xl bg-slate-50 p-3 text-sm"></div></div>
+        </div>
+        <button id="vdBook" class="mt-6 w-full rounded-lg bg-gold-500 py-3 text-sm font-bold text-navy-900 transition hover:bg-gold-400">Book this vehicle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking modal -->
+  <div id="modal-booking" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+    <div class="absolute inset-0 bg-navy-900/70 backdrop-blur-sm" data-close></div>
+    <div class="panel relative max-h-[94vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+      <button class="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100" data-close aria-label="Close">&times;</button>
+
+      <div id="bookingView">
+        <h2 id="bkTitle" class="font-display text-2xl font-bold text-navy-900">Booking details</h2>
+        <div id="bkVehicle" class="mt-4 flex items-center gap-4 rounded-xl bg-slate-50 p-3"></div>
+
+        <form id="bookingForm" class="mt-5" novalidate>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Service type</span>
+              <select id="bkService" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30"></select></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Estimated distance (KM)</span>
+              <input id="bkKm" type="number" min="1" max="5000" value="50" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Pickup location</span>
+              <input id="bkPickup" list="locations" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Drop-off location</span>
+              <input id="bkDrop" list="locations" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Pickup date &amp; time</span>
+              <input id="bkPickupDT" type="datetime-local" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Return date &amp; time</span>
+              <input id="bkReturnDT" type="datetime-local" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Contact name</span>
+              <input id="bkName" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+            <label class="block"><span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Contact phone</span>
+              <input id="bkPhone" type="tel" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30" /></label>
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 p-3">
+            <div>
+              <p class="text-sm font-semibold text-navy-900">Rental add-ons</p>
+              <p id="bkAddonList" class="text-sm text-slate-500">None selected</p>
+            </div>
+            <button type="button" id="bkOpenAddons" class="rounded-lg border border-navy-900 px-4 py-2 text-sm font-semibold text-navy-900 hover:bg-navy-900 hover:text-white">Select add-ons</button>
+          </div>
+
+          <dl class="mt-5 space-y-2 rounded-xl bg-slate-50 p-4 text-sm" aria-live="polite">
+            <div class="flex justify-between"><dt class="text-slate-500">Base fare (<span id="bkFareNote"></span>)</dt><dd id="bkBase" class="font-semibold"></dd></div>
+            <div class="flex justify-between"><dt class="text-slate-500">Add-ons</dt><dd id="bkAddonTotal" class="font-semibold"></dd></div>
+            <div class="flex items-end justify-between border-t border-slate-200 pt-3"><dt class="font-semibold text-navy-900">Estimated total</dt><dd id="bkTotal" class="font-display text-2xl font-extrabold text-navy-900"></dd></div>
+          </dl>
+          <p id="bkError" class="mt-3 hidden rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert"></p>
+          <button type="submit" id="bkSubmit" class="mt-5 w-full rounded-lg bg-gold-500 py-3 text-sm font-bold text-navy-900 transition hover:bg-gold-400 disabled:opacity-60">Confirm booking</button>
+        </form>
+      </div>
+
+      <div id="bookingDone" class="hidden py-6 text-center">
+        <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-emerald-100 text-3xl text-emerald-600">&#10003;</span>
+        <h2 class="mt-4 font-display text-2xl font-bold text-navy-900">Booking received!</h2>
+        <p class="mt-2 text-slate-600">Your reference number is</p>
+        <p id="bkRef" class="mt-1 font-display text-3xl font-extrabold tracking-wide text-navy-900"></p>
+        <p id="bkDoneNote" class="mx-auto mt-3 max-w-md text-sm text-slate-500"></p>
+        <button data-close class="mt-6 rounded-lg bg-navy-900 px-6 py-3 text-sm font-bold text-white hover:bg-navy-700">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add-ons modal -->
+  <div id="modal-addons" class="modal fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="addonTitle">
+    <div class="absolute inset-0 bg-navy-900/70 backdrop-blur-sm" data-close></div>
+    <div class="panel relative max-h-[92vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
+      <button class="absolute right-4 top-4 grid h-8 w-8 place-items-center rounded-full text-slate-500 hover:bg-slate-100" data-close aria-label="Close">&times;</button>
+      <h2 id="addonTitle" class="font-display text-2xl font-bold text-navy-900">Rental add-ons</h2>
+      <p class="mt-1 text-sm text-slate-500">Prices are per booking.</p>
+      <div id="addonOptions" class="mt-5 space-y-3"></div>
+      <div class="mt-5 flex items-center justify-between border-t border-slate-200 pt-4">
+        <span class="text-sm text-slate-500">Add-ons total</span>
+        <span id="addonModalTotal" class="font-display text-xl font-bold text-navy-900"></span>
+      </div>
+      <button id="addonSave" class="mt-4 w-full rounded-lg bg-navy-900 py-3 text-sm font-bold text-white hover:bg-navy-700">Save add-ons</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 z-[70] -translate-x-1/2 translate-y-4 rounded-full bg-navy-900 px-5 py-3 text-sm font-medium text-white opacity-0 shadow-xl transition-all duration-300" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+   PRIME RIDEZ  |  front-end application
+   ---------------------------------------------------------------------
+   BACKEND INTEGRATION (Java):
+   1. Set CONFIG.USE_MOCK = false and point CONFIG.API_BASE at your API.
+   2. Endpoints this page calls (all JSON):
+        POST /auth/register   { name, email, phone, password }      -> { token, user:{ name, email, phone } }
+        POST /auth/login      { email, password }                    -> { token, user:{ name, email, phone } }
+        GET  /vehicles                                              -> [ Vehicle ]   (shape documented below)
+        POST /bookings        { vehicleId, service, pickup, dropoff,
+                                pickupAt, returnAt, distanceKm,
+                                addons:[ids], contactName, contactPhone }
+                                                                    -> { reference }
+        POST /contact         { name, email, message }               -> { ok:true }
+      Errors: respond with a non-2xx status and { "message": "..." }.
+      Auth: the token is sent as  Authorization: Bearer <token>.
+   3. Vehicle shape: { id, name, tier:'general'|'premium'|'luxury',
+        type:'hatchback'|'sedan'|'suv'|'van', seats, bags, transmission,
+        fuel, color, description, features:[..],
+        services:['self-drive','with-driver','airport','wedding'] }
+   4. Prices are recalculated by the server; the fare shown here is an estimate.
+   ===================================================================== */
+
+const CONFIG = {
+  API_BASE: 'http://localhost:8080/api',
+  USE_MOCK: true            // demo data in the browser; set to false to call your Java API
+};
+
+/* ---------- Business data (mirrors the pricing matrix) ---------- */
+const TIERS = {
+  general: { label: 'General', blurb: 'Affordable hatchbacks & economy cars', fixed: 2000, perKm: 50, baseKm: 50,
+             badge: 'bg-emerald-100 text-emerald-700', grad: 'from-emerald-100 to-emerald-50', ring: 'ring-emerald-200' },
+  premium: { label: 'Premium', blurb: 'Comfort sedans for business & family', fixed: 3000, perKm: 70, baseKm: 50,
+             badge: 'bg-sky-100 text-sky-700', grad: 'from-sky-100 to-sky-50', ring: 'ring-sky-200' },
+  luxury:  { label: 'Luxury', blurb: 'Luxury sedans, Mini SUVs, SUVs & Vans', fixed: 5000, perKm: 80, baseKm: 50,
+             badge: 'bg-amber-100 text-amber-700', grad: 'from-amber-100 to-amber-50', ring: 'ring-amber-200' }
+};
+
+const SERVICES = {
+  'self-drive':  { label: 'Self Drive',            icon: '&#128273;', short: 'Self Drive' },
+  'with-driver': { label: 'With Driver / Tours',   icon: '&#129517;', short: 'With Driver' },
+  'airport':     { label: 'Airport Transfer',      icon: '&#9992;&#65039;', short: 'Airport' },
+  'wedding':     { label: 'Weddings & Events',     icon: '&#128141;', short: 'Weddings' }
+};
+
+const ADDONS = [
+  { id: 'baby-seat',   name: 'Baby seat',          desc: 'Rear-facing seat for infants',    price: 500 },
+  { id: 'gps',         name: 'GPS navigation',     desc: 'Pre-loaded island-wide maps',     price: 700 },
+  { id: 'insurance',   name: 'Extra insurance',    desc: 'Lower excess, extra peace of mind', price: 1500 },
+  { id: 'safety-rail', name: 'Child safety rails', desc: 'Side protection for young children', price: 400 }
+];
+
+/* Demo vehicles (used only when USE_MOCK = true) */
+const MOCK_VEHICLES = [
+  { id: 1,  name: 'Suzuki Alto',        tier: 'general', type: 'hatchback', seats: 4, bags: 1, transmission: 'Manual',    fuel: 'Petrol', color: '#10b981', description: 'Tiny, thrifty and perfect for city runs.', features: ['Air conditioning', 'Bluetooth audio', 'Great fuel economy'], services: ['self-drive', 'with-driver', 'airport'] },
+  { id: 2,  name: 'Suzuki Wagon R',     tier: 'general', type: 'hatchback', seats: 4, bags: 2, transmission: 'Automatic', fuel: 'Petrol', color: '#34d399', description: 'Roomy for its size with easy automatic driving.', features: ['Air conditioning', 'Reverse camera', 'USB charging'], services: ['self-drive', 'with-driver', 'airport'] },
+  { id: 3,  name: 'Toyota Vitz',        tier: 'general', type: 'hatchback', seats: 5, bags: 2, transmission: 'Automatic', fuel: 'Petrol', color: '#059669', description: 'A dependable five-seat hatchback for small groups.', features: ['Air conditioning', 'Bluetooth audio', 'Airbags'], services: ['self-drive', 'with-driver', 'airport'] },
+  { id: 4,  name: 'Toyota Axio',        tier: 'premium', type: 'sedan',     seats: 5, bags: 3, transmission: 'Automatic', fuel: 'Petrol Hybrid', color: '#3b82f6', description: 'Smooth, quiet and efficient for business trips.', features: ['Dual-zone A/C', 'Reverse camera', 'Cruise control'], services: ['self-drive', 'with-driver', 'airport', 'wedding'] },
+  { id: 5,  name: 'Honda Grace Hybrid', tier: 'premium', type: 'sedan',     seats: 5, bags: 3, transmission: 'Automatic', fuel: 'Hybrid', color: '#2563eb', description: 'Comfortable hybrid sedan with generous legroom.', features: ['Leather-look seats', 'Touchscreen audio', 'Rear A/C vents'], services: ['self-drive', 'with-driver', 'airport', 'wedding'] },
+  { id: 6,  name: 'Toyota Premio',      tier: 'premium', type: 'sedan',     seats: 5, bags: 3, transmission: 'Automatic', fuel: 'Petrol', color: '#1d4ed8', description: 'Refined family sedan for longer journeys.', features: ['Dual-zone A/C', 'Sunroof', 'Premium audio'], services: ['self-drive', 'with-driver', 'airport', 'wedding'] },
+  { id: 7,  name: 'Toyota Raize Mini SUV', tier: 'luxury', type: 'suv',     seats: 5, bags: 3, transmission: 'Automatic', fuel: 'Petrol', color: '#f59e0b', description: 'Compact SUV with higher ground clearance for hill roads.', features: ['High ground clearance', 'Reverse camera', 'Touchscreen audio'], services: ['self-drive', 'with-driver', 'airport', 'wedding'] },
+  { id: 8,  name: 'Toyota Prado SUV',   tier: 'luxury',  type: 'suv',       seats: 7, bags: 4, transmission: 'Automatic', fuel: 'Diesel', color: '#374151', description: 'Powerful, spacious and ready for any terrain.', features: ['4WD', 'Leather seats', '3-zone A/C', 'Panoramic camera'], services: ['self-drive', 'with-driver', 'airport', 'wedding'] },
+  { id: 9,  name: 'Toyota Alphard Luxury Van', tier: 'luxury', type: 'van', seats: 7, bags: 5, transmission: 'Automatic', fuel: 'Petrol Hybrid', color: '#111827', description: 'First-class lounge on wheels. Chauffeur-driven only.', features: ['Captain seats', 'Power sliding doors', 'Rear entertainment', 'Wi-Fi hotspot'], services: ['with-driver', 'airport', 'wedding'] },
+  { id: 10, name: 'Mercedes-Benz E-Class', tier: 'luxury', type: 'sedan',   seats: 4, bags: 3, transmission: 'Automatic', fuel: 'Petrol', color: '#0f172a', description: 'An executive sedan for weddings and VIP transfers. Chauffeur-driven only.', features: ['Massage seats', 'Ambient lighting', 'Premium sound', 'Chauffeur in suit'], services: ['with-driver', 'airport', 'wedding'] },
+  { id: 11, name: 'Toyota Hiace Luxury Van', tier: 'luxury', type: 'van',    seats: 9, bags: 6, transmission: 'Automatic', fuel: 'Diesel', color: '#475569', description: 'Group-friendly high-roof van for tours and events.', features: ['High roof', 'Rear A/C', 'Large luggage space', 'USB at every row'], services: ['with-driver', 'airport', 'wedding'] }
+];
+
+const DESTINATIONS = [
+  { name: 'Sigiriya', icon: '&#129409;', grad: 'from-amber-500 to-orange-700', km: 175, best: 'Jan - Apr',
+    guide: 'Climb the 5th-century Lion Rock fortress and explore ancient frescoes, mirror wall and water gardens.',
+    highlights: ['Lion Rock', 'Pidurangala sunrise', 'Dambulla Cave Temple'], vehicle: 'Toyota Axio', tier: 'premium' },
+  { name: 'Ella', icon: '&#127748;', grad: 'from-emerald-500 to-teal-700', km: 200, best: 'Jan - Mar',
+    guide: 'Misty tea hills, Nine Arch Bridge and the Little Adam\'s Peak trail in the cool hill country.',
+    highlights: ['Nine Arch Bridge', 'Little Adam\'s Peak', 'Ravana Falls'], vehicle: 'Toyota Raize Mini SUV', tier: 'luxury' },
+  { name: 'Galle Fort', icon: '&#127984;', grad: 'from-sky-500 to-blue-700', km: 120, best: 'Dec - Apr',
+    guide: 'A UNESCO World Heritage fort of Dutch-era streets, cafes, boutiques and sunset ramparts.',
+    highlights: ['Fort ramparts', 'Lighthouse', 'Dutch Reformed Church'], vehicle: 'Honda Grace Hybrid', tier: 'premium' },
+  { name: 'Kandy', icon: '&#128367;&#65039;', grad: 'from-rose-500 to-red-700', km: 115, best: 'Jan - Apr',
+    guide: 'Sri Lanka\'s cultural capital, home to the Temple of the Tooth and the Royal Botanical Gardens.',
+    highlights: ['Temple of the Tooth', 'Peradeniya Gardens', 'Kandy Lake'], vehicle: 'Toyota Vitz', tier: 'general' },
+  { name: 'Mirissa', icon: '&#128051;', grad: 'from-cyan-500 to-indigo-700', km: 150, best: 'Nov - Apr',
+    guide: 'Golden beaches, whale watching and palm-fringed surf spots on the southern coast.',
+    highlights: ['Whale watching', 'Coconut Tree Hill', 'Parrot Rock'], vehicle: 'Toyota Alphard Luxury Van', tier: 'luxury' }
+];
+
+const SERVICE_CARDS = [
+  { icon: '&#128273;', title: 'Self Drive Rentals', text: 'Take the wheel on your own schedule with flexible daily and weekly rental options.', cta: 'Browse self-drive cars', action: { type: 'service', value: 'self-drive' } },
+  { icon: '&#129517;', title: 'With Drivers / Tourist Tours', text: 'Experienced local drivers who know the island, for international and local tourists alike.', cta: 'Plan a tour', action: { type: 'service', value: 'with-driver' } },
+  { icon: '&#9992;&#65039;', title: 'Airport Transfers', text: 'Direct pickup and drop-off between the airport and any destination in Sri Lanka.', cta: 'Book a transfer', action: { type: 'service', value: 'airport' } },
+  { icon: '&#128141;', title: 'Weddings & Event Rates', text: 'Special day-rate packages with beautifully presented cars for your big day.', cta: 'See wedding cars', action: { type: 'service', value: 'wedding' } },
+  { icon: '&#129529;', title: 'Rental Add-ons', text: 'Baby seats, GPS, extra insurance and child safety rails, selectable while booking.', cta: 'View add-ons', action: { type: 'addons' } }
+];
+
+/* ---------- Helpers ---------- */
+const $ = (id) => document.getElementById(id);
+const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const fmt = (n) => 'LKR ' + Math.round(n).toLocaleString('en-LK');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+  del(k) { try { localStorage.removeItem(k); } catch { /* storage unavailable */ } }
+};
+const pad = (n) => String(n).padStart(2, '0');
+const toLocalInput = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+/* Fare formula:  d <= 50 -> fixed ;  d > 50 -> fixed + (d - 50) * perKm */
+function calcFare(tierKey, km) {
+  const t = TIERS[tierKey];
+  const d = Math.max(0, Number(km) || 0);
+  const extraKm = Math.max(0, d - t.baseKm);
+  const extra = extraKm * t.perKm;
+  return { fixed: t.fixed, extraKm, extra, total: t.fixed + extra, perKm: t.perKm };
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.remove('opacity-0', 'translate-y-4');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add('opacity-0', 'translate-y-4'), 3200);
+}
+
+/* ---------- API layer ---------- */
+async function api(path, { method = 'GET', body } = {}) {
+  if (CONFIG.USE_MOCK) return mockApi(path, method, body);
+  const headers = { 'Content-Type': 'application/json' };
+  const token = store.get('pr_token');
+  if (token) headers.Authorization = 'Bearer ' + token;
+  let res;
+  try {
+    res = await fetch(CONFIG.API_BASE + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  } catch {
+    throw new Error('Cannot reach the server. Please try again.');
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || `Request failed (${res.status})`);
+  return data;
+}
+
+/* Browser-only stand-in for the Java API. Not secure, for demo use only. */
+async function mockApi(path, method, body) {
+  await new Promise((r) => setTimeout(r, 350));
+  if (path === '/vehicles') return MOCK_VEHICLES;
+  if (path === '/auth/register') {
+    store.set('pr_demo_name_' + body.email.toLowerCase(), body.name);
+    return { token: 'demo-token', user: { name: body.name, email: body.email, phone: body.phone } };
+  }
+  if (path === '/auth/login') {
+    const name = store.get('pr_demo_name_' + body.email.toLowerCase()) || body.email.split('@')[0];
+    return { token: 'demo-token', user: { name, email: body.email, phone: '' } };
+  }
+  if (path === '/bookings') return { reference: 'PR-' + Math.random().toString(36).slice(2, 8).toUpperCase() };
+  if (path === '/contact') return { ok: true };
+  throw new Error('Unknown endpoint: ' + path);
+}
+
+/* ---------- State ---------- */
+const state = {
+  vehicles: [],
+  tab: 'all',
+  service: 'self-drive',          // service chosen in the search widget
+  searched: false,                // true after the user presses Search
+  search: { pickup: '', drop: '', pickupAt: '', returnAt: '' },
+  user: null,
+  pendingAction: null,
+  booking: { vehicle: null },
+  addons: new Set()
+};
+
+/* ---------- Vehicle artwork (placeholder illustration) ---------- */
+function carSvg(type, color) {
+  const shapes = {
+    hatchback: { body: 'M14 82V64Q14 56 24 54L50 50L72 26Q76 22 84 22H140Q148 22 152 28L170 50L196 56Q206 58 206 68V82Z', win: 'M62 50L80 30H110V50ZM116 30H142L158 50H116Z' },
+    sedan:     { body: 'M10 82V66Q10 58 20 56L52 52L76 30Q80 26 88 26H132Q140 26 146 31L166 52L198 57Q210 59 210 70V82Z', win: 'M66 52L84 32H110V52ZM116 32H134L152 52H116Z' },
+    suv:       { body: 'M12 82V60Q12 52 22 50L44 46L60 24Q63 20 70 20H160Q168 20 172 26L184 46L202 50Q210 52 210 62V82Z', win: 'M50 46L64 26H108V46ZM114 26H158L170 46H114Z' },
+    van:       { body: 'M10 82V40Q10 28 22 26H150Q162 26 168 36L186 56L204 60Q212 62 212 70V82Z', win: 'M24 34H70V54H24ZM76 34H122V54H76ZM128 34H150L168 54H128Z' }
+  };
+  const s = shapes[type] || shapes.sedan;
+  return `<svg viewBox="0 0 220 110" class="h-full w-full" role="img" aria-label="${esc(type)} illustration" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="112" cy="97" rx="92" ry="6" fill="#0f172a" opacity=".12"/>
+    <path d="${s.body}" fill="${color}"/>
+    <path d="${s.win}" fill="#e0f2fe" opacity=".85"/>
+    <circle cx="58" cy="82" r="15" fill="#1f2937"/><circle cx="58" cy="82" r="6" fill="#9ca3af"/>
+    <circle cx="166" cy="82" r="15" fill="#1f2937"/><circle cx="166" cy="82" r="6" fill="#9ca3af"/>
+  </svg>`;
+}
+const imgBox = (v, h = 'h-44') => `<div class="grid ${h} place-items-center bg-gradient-to-br ${TIERS[v.tier].grad} p-6">${carSvg(v.type, v.color)}</div>`;
+const tierBadge = (tier) => `<span class="inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${TIERS[tier].badge}">${TIERS[tier].label} Class</span>`;
+
+/* ---------- Modals ---------- */
+function openModal(id) {
+  const m = $(id);
+  m.classList.remove('hidden'); m.classList.add('flex');
+  document.body.classList.add('overflow-hidden');
+  m.dataset.opener = document.activeElement && document.activeElement.id ? document.activeElement.id : '';
+  const focusable = m.querySelector('input:not([type=hidden]), select, button:not([data-close])');
+  if (focusable) setTimeout(() => focusable.focus({ preventScroll: true }), 50);
+}
+function closeModal(id) {
+  const m = $(id);
+  m.classList.add('hidden'); m.classList.remove('flex');
+  if (!qsa('.modal').some((x) => !x.classList.contains('hidden'))) document.body.classList.remove('overflow-hidden');
+}
+document.addEventListener('click', (e) => {
+  const closer = e.target.closest('[data-close]');
+  if (closer) { const m = closer.closest('.modal'); if (m) closeModal(m.id); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const open = qsa('.modal').filter((m) => !m.classList.contains('hidden'));
+  if (open.length) closeModal(open[open.length - 1].id);
+});
+
+/* ---------- Header / navigation ---------- */
+$('menuBtn').addEventListener('click', () => {
+  const menu = $('mobileMenu');
+  const isOpen = menu.classList.toggle('hidden') === false;
+  $('menuBtn').setAttribute('aria-expanded', String(isOpen));
+});
+qsa('.mobile-link').forEach((a) => a.addEventListener('click', () => { $('mobileMenu').classList.add('hidden'); $('menuBtn').setAttribute('aria-expanded', 'false'); }));
+
+/* Highlight active section in nav */
+const navLinks = qsa('.nav-link');
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach((en) => {
+    if (en.isIntersecting) {
+      navLinks.forEach((a) => {
+        const on = a.getAttribute('href') === '#' + en.target.id;
+        a.classList.toggle('text-gold-400', on);
+        a.classList.toggle('bg-white/10', on);
+      });
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+['home', 'fleet', 'services', 'pricing', 'destinations', 'contact'].forEach((id) => sectionObs.observe($(id)));
+
+/* Rotating hero word */
+(function rotateWord() {
+  const words = ['Self Drive', 'Island Tours', 'Airport Transfers', 'Weddings & Events'];
+  let i = 0;
+  const el = $('wordSwap');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  setInterval(() => {
+    el.classList.add('out');
+    setTimeout(() => { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove('out'); }, 350);
+  }, 2600);
+})();
+
+/* ---------- Auth ---------- */
+function renderAuthUI() {
+  const u = state.user;
+  $('guestButtons').classList.toggle('hidden', !!u);
+  $('guestButtons').classList.toggle('flex', !u);
+  $('mobileGuest').classList.toggle('hidden', !!u);
+  $('userMenu').classList.toggle('hidden', !u);
+  $('userMenu').classList.toggle('flex', !!u);
+  if (u) $('userName').textContent = (u.name || 'Guest').split(' ')[0];
+}
+function loadSession() {
+  try { const raw = store.get('pr_user'); state.user = raw ? JSON.parse(raw) : null; } catch { state.user = null; }
+  renderAuthUI();
+}
+function setSession(token, user) {
+  state.user = user;
+  store.set('pr_token', token || ''); store.set('pr_user', JSON.stringify(user));
+  renderAuthUI();
+}
+function logout() {
+  state.user = null; store.del('pr_token'); store.del('pr_user');
+  renderAuthUI(); toast('You have been logged out.');
+}
+function switchAuthTab(which) {
+  const login = which === 'login';
+  $('loginForm').classList.toggle('hidden', !login);
+  $('signupForm').classList.toggle('hidden', login);
+  $('authTitle').textContent = login ? 'Welcome back' : 'Create your account';
+  $('tabLogin').className = 'rounded-md py-2 transition ' + (login ? 'bg-white text-navy-900 shadow' : 'text-slate-500');
+  $('tabSignup').className = 'rounded-md py-2 transition ' + (!login ? 'bg-white text-navy-900 shadow' : 'text-slate-500');
+  $('tabLogin').setAttribute('aria-selected', String(login));
+  $('tabSignup').setAttribute('aria-selected', String(!login));
+  qsa('.authError').forEach((p) => p.classList.add('hidden'));
+}
+function openAuth(which = 'login', notice = '') {
+  switchAuthTab(which);
+  const n = $('authNotice');
+  n.textContent = notice; n.classList.toggle('hidden', !notice);
+  openModal('modal-auth');
+}
+function authError(form, msg) {
+  const p = form.querySelector('.authError');
+  p.textContent = msg; p.classList.remove('hidden');
+}
+const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+qsa('[data-open-auth]').forEach((b) => b.addEventListener('click', () => {
+  $('mobileMenu').classList.add('hidden');
+  openAuth(b.dataset.openAuth);
+}));
+$('tabLogin').addEventListener('click', () => switchAuthTab('login'));
+$('tabSignup').addEventListener('click', () => switchAuthTab('signup'));
+$('logoutBtn').addEventListener('click', logout);
+
+async function afterAuth(user) {
+  closeModal('modal-auth');
+  toast('Welcome, ' + (user.name || '').split(' ')[0] + '!');
+  const next = state.pendingAction; state.pendingAction = null;
+  if (typeof next === 'function') next();
+}
+
+$('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, btn = f.querySelector('button[type=submit]');
+  const email = f.email.value.trim(), password = f.password.value;
+  if (!validEmail(email)) return authError(f, 'Enter a valid email address.');
+  if (password.length < 6) return authError(f, 'Password must be at least 6 characters.');
+  btn.disabled = true; btn.textContent = 'Logging in...';
+  try {
+    const { token, user } = await api('/auth/login', { method: 'POST', body: { email, password } });
+    setSession(token, user); f.reset(); afterAuth(user);
+  } catch (err) { authError(f, err.message); }
+  finally { btn.disabled = false; btn.textContent = 'Login'; }
+});
+
+$('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, btn = f.querySelector('button[type=submit]');
+  const name = f.name.value.trim(), email = f.email.value.trim(), phone = f.phone.value.trim();
+  const password = f.password.value, confirm = f.confirm.value;
+  if (name.length < 2) return authError(f, 'Please enter your full name.');
+  if (!validEmail(email)) return authError(f, 'Enter a valid email address.');
+  if (phone.replace(/\D/g, '').length < 9) return authError(f, 'Enter a valid phone number.');
+  if (password.length < 6) return authError(f, 'Password must be at least 6 characters.');
+  if (password !== confirm) return authError(f, 'Passwords do not match.');
+  if (!f.terms.checked) return authError(f, 'Please accept the Terms & Conditions.');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  try {
+    const { token, user } = await api('/auth/register', { method: 'POST', body: { name, email, phone, password } });
+    setSession(token, user); f.reset(); afterAuth(user);
+  } catch (err) { authError(f, err.message); }
+  finally { btn.disabled = false; btn.textContent = 'Create account'; }
+});
+
+/* ---------- Search widget ---------- */
+function renderServiceTabs() {
+  const wrap = $('serviceTabs');
+  wrap.innerHTML = Object.entries(SERVICES).map(([key, s]) => {
+    const on = key === state.service;
+    return `<button type="button" role="radio" aria-checked="${on}" data-service="${key}"
+      class="flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${on ? 'border-navy-900 bg-navy-900 text-white' : 'border-slate-300 text-slate-600 hover:border-navy-900'}">
+      <span aria-hidden="true">${s.icon}</span>${esc(s.label)}</button>`;
+  }).join('');
+}
+function setService(key, { silent = false } = {}) {
+  state.service = key;
+  renderServiceTabs();
+  const pickup = $('pickupLoc');
+  if (key === 'airport' && !pickup.value) pickup.value = 'Bandaranaike International Airport (CMB)';
+  $('dropLoc').placeholder = key === 'self-drive' ? 'Same as pickup (optional)' : 'e.g. Kandy';
+  if (!silent && state.searched) renderFleet();
+}
+$('serviceTabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-service]');
+  if (b) setService(b.dataset.service);
+});
+
+function initDates() {
+  const now = new Date();
+  const start = new Date(now); start.setDate(start.getDate() + 1); start.setHours(9, 0, 0, 0);
+  const end = new Date(start); end.setDate(end.getDate() + 1);
+  const min = toLocalInput(now);
+  ['pickupDT', 'returnDT', 'bkPickupDT', 'bkReturnDT'].forEach((id) => { $(id).min = min; });
+  $('pickupDT').value = toLocalInput(start);
+  $('returnDT').value = toLocalInput(end);
+}
+$('pickupDT').addEventListener('change', () => {
+  const p = new Date($('pickupDT').value), r = new Date($('returnDT').value);
+  if (!isNaN(p) && (isNaN(r) || r <= p)) { const n = new Date(p); n.setHours(n.getHours() + 24); $('returnDT').value = toLocalInput(n); }
+  $('returnDT').min = $('pickupDT').value;
+});
+
+$('searchForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const err = $('searchError');
+  const pickup = $('pickupLoc').value.trim();
+  const p = new Date($('pickupDT').value), r = new Date($('returnDT').value);
+  let msg = '';
+  if (!pickup) msg = 'Please enter a pickup location.';
+  else if (isNaN(p) || isNaN(r)) msg = 'Please choose pickup and return date & time.';
+  else if (p < new Date(Date.now() - 60000)) msg = 'Pickup time cannot be in the past.';
+  else if (r <= p) msg = 'Return time must be after pickup time.';
+  err.textContent = msg; err.classList.toggle('hidden', !msg);
+  if (msg) return;
+  state.search = { pickup, drop: $('dropLoc').value.trim(), pickupAt: $('pickupDT').value, returnAt: $('returnDT').value };
+  state.searched = true; state.tab = 'all';
+  renderFleetTabs(); renderFleet();
+  $('fleet').scrollIntoView({ behavior: 'smooth' });
+  toast('Showing vehicles for ' + SERVICES[state.service].label);
+});
+
+/* ---------- Fleet ---------- */
+function renderTierCards() {
+  $('tierCards').innerHTML = Object.entries(TIERS).map(([key, t]) => {
+    const count = state.vehicles.filter((v) => v.tier === key).length;
+    return `<button data-tier-jump="${key}" class="group rounded-2xl bg-white p-5 text-left shadow-sm ring-1 ${t.ring} transition hover:-translate-y-1 hover:shadow-lg">
+      <div class="flex items-center justify-between">${tierBadge(key)}<span class="text-xs text-slate-400">${count ? count + ' vehicles' : ''}</span></div>
+      <p class="mt-3 font-display text-lg font-bold text-navy-900">${t.label} Class</p>
+      <p class="text-sm text-slate-600">${esc(t.blurb)}</p>
+      <p class="mt-3 text-sm font-semibold text-navy-900">From ${fmt(t.fixed)} <span class="font-normal text-slate-500">/ first ${t.baseKm} KM</span></p>
+      <span class="mt-2 inline-block text-sm font-semibold text-gold-600 group-hover:underline">View ${t.label.toLowerCase()} vehicles &rarr;</span>
+    </button>`;
+  }).join('');
+}
+$('tierCards').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-tier-jump]');
+  if (!b) return;
+  state.tab = b.dataset.tierJump; renderFleetTabs(); renderFleet();
+  $('fleetTabs').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+function renderFleetTabs() {
+  const tabs = [['all', 'All'], ...Object.entries(TIERS).map(([k, t]) => [k, t.label])];
+  $('fleetTabs').innerHTML = tabs.map(([k, label]) => {
+    const on = state.tab === k;
+    return `<button role="tab" aria-selected="${on}" data-tab="${k}" class="shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${on ? 'bg-navy-900 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-navy-900'}">${esc(label)}</button>`;
+  }).join('');
+}
+$('fleetTabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-tab]');
+  if (b) { state.tab = b.dataset.tab; renderFleetTabs(); renderFleet(); }
+});
+
+function filteredVehicles() {
+  return state.vehicles.filter((v) =>
+    (state.tab === 'all' || v.tier === state.tab) &&
+    (!state.searched || (v.services || []).includes(state.service)));
+}
+
+function renderFleet() {
+  const list = filteredVehicles();
+  const grid = $('fleetGrid');
+  $('fleetEmpty').classList.toggle('hidden', list.length > 0);
+  $('fleetSummary').textContent = `${list.length} vehicle${list.length === 1 ? '' : 's'}` + (state.searched ? ` available for ${SERVICES[state.service].label}` : '');
+  grid.innerHTML = list.map((v) => {
+    const t = TIERS[v.tier];
+    return `<article class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <div class="relative">${imgBox(v)}<span class="absolute left-3 top-3">${tierBadge(v.tier)}</span></div>
+      <div class="flex flex-1 flex-col p-5">
+        <h3 class="font-display text-lg font-bold text-navy-900">${esc(v.name)}</h3>
+        <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-600">
+          <span title="Passengers">&#128101; ${v.seats} seats</span>
+          <span title="Transmission">&#9881;&#65039; ${esc(v.transmission)}</span>
+          <span title="Luggage">&#129523; ${v.bags} bags</span>
+        </div>
+        <ul class="mt-3 flex flex-wrap gap-1.5">${(v.features || []).slice(0, 3).map((f) => `<li class="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600">${esc(f)}</li>`).join('')}</ul>
+        <p class="mt-4 text-sm text-slate-500">From <strong class="text-navy-900">${fmt(t.fixed)}</strong> / ${t.baseKm} KM, then ${fmt(t.perKm)}/KM</p>
+        <div class="mt-4 grid grid-cols-2 gap-2 pt-1">
+          <button data-view="${v.id}" class="rounded-lg border border-slate-300 py-2.5 text-sm font-semibold text-navy-900 transition hover:border-navy-900">View Details</button>
+          <button data-book="${v.id}" class="rounded-lg bg-gold-500 py-2.5 text-sm font-bold text-navy-900 transition hover:bg-gold-400">Book Now</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+$('fleetGrid').addEventListener('click', (e) => {
+  const view = e.target.closest('[data-view]'), book = e.target.closest('[data-book]');
+  if (view) openVehicle(Number(view.dataset.view));
+  if (book) startBooking(Number(book.dataset.book));
+});
+$('resetFilters').addEventListener('click', () => { state.searched = false; state.tab = 'all'; renderFleetTabs(); renderFleet(); });
+
+const vehicleById = (id) => state.vehicles.find((v) => v.id === id);
+
+function openVehicle(id) {
+  const v = vehicleById(id); if (!v) return;
+  const t = TIERS[v.tier];
+  $('vdImage').innerHTML = imgBox(v, 'h-full');
+  $('vdName').textContent = v.name;
+  $('vdBadge').innerHTML = tierBadge(v.tier);
+  $('vdDesc').textContent = v.description || '';
+  const specs = [['Passengers', v.seats], ['Luggage', v.bags + ' bags'], ['Transmission', v.transmission], ['Fuel', v.fuel]];
+  $('vdSpecs').innerHTML = specs.map(([k, val]) => `<div class="rounded-xl bg-slate-50 p-3"><dt class="text-xs text-slate-500">${k}</dt><dd class="font-semibold text-navy-900">${esc(val)}</dd></div>`).join('');
+  $('vdFeatures').innerHTML = (v.features || []).map((f) => `<li class="flex gap-2"><span class="text-gold-600">&#10003;</span>${esc(f)}</li>`).join('');
+  $('vdServices').innerHTML = (v.services || []).map((s) => `<span class="rounded-full bg-navy-900/5 px-3 py-1 text-xs font-semibold text-navy-900">${esc(SERVICES[s]?.short || s)}</span>`).join('');
+  $('vdRate').innerHTML = `<p class="font-semibold text-navy-900">${t.label} rate</p><p class="text-slate-600">${fmt(t.fixed)} for the first ${t.baseKm} KM, then ${fmt(t.perKm)} per KM.</p>`;
+  $('vdBook').onclick = () => { closeModal('modal-vehicle'); startBooking(id); };
+  openModal('modal-vehicle');
+}
+
+/* ---------- Add-ons ---------- */
+const addonsTotal = () => ADDONS.filter((a) => state.addons.has(a.id)).reduce((s, a) => s + a.price, 0);
+
+function renderAddonOptions() {
+  $('addonOptions').innerHTML = ADDONS.map((a) => `
+    <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-3 transition hover:border-gold-500">
+      <input type="checkbox" value="${a.id}" class="mt-1 h-4 w-4 accent-gold-500" ${state.addons.has(a.id) ? 'checked' : ''} />
+      <span class="flex-1"><span class="block text-sm font-semibold text-navy-900">${esc(a.name)}</span><span class="block text-xs text-slate-500">${esc(a.desc)}</span></span>
+      <span class="text-sm font-semibold text-navy-900">${fmt(a.price)}</span>
+    </label>`).join('');
+  updateAddonModalTotal();
+}
+function updateAddonModalTotal() {
+  const picked = qsa('#addonOptions input:checked').map((i) => i.value);
+  $('addonModalTotal').textContent = fmt(ADDONS.filter((a) => picked.includes(a.id)).reduce((s, a) => s + a.price, 0));
+}
+$('addonOptions').addEventListener('change', updateAddonModalTotal);
+function openAddons() { renderAddonOptions(); openModal('modal-addons'); }
+$('addonSave').addEventListener('click', () => {
+  state.addons = new Set(qsa('#addonOptions input:checked').map((i) => i.value));
+  closeModal('modal-addons');
+  updateBookingSummary();
+  toast(state.addons.size ? 'Add-ons saved.' : 'No add-ons selected.');
+});
+$('bkOpenAddons').addEventListener('click', openAddons);
+
+/* ---------- Booking ---------- */
+function startBooking(id) {
+  if (!state.user) {
+    state.pendingAction = () => startBooking(id);
+    openAuth('login', 'Please log in or sign up to complete your booking.');
+    return;
+  }
+  const v = vehicleById(id); if (!v) return;
+  state.booking.vehicle = v;
+  $('bookingView').classList.remove('hidden'); $('bookingDone').classList.add('hidden');
+  $('bkVehicle').innerHTML = `<div class="h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${TIERS[v.tier].grad} p-1.5">${carSvg(v.type, v.color)}</div>
+    <div><p class="font-display font-bold text-navy-900">${esc(v.name)}</p><p class="text-sm text-slate-500">${esc(TIERS[v.tier].label)} Class &middot; ${v.seats} seats &middot; ${esc(v.transmission)}</p></div>`;
+  const opts = (v.services || []).map((s) => `<option value="${s}">${esc(SERVICES[s]?.label || s)}</option>`).join('');
+  $('bkService').innerHTML = opts;
+  $('bkService').value = (v.services || []).includes(state.service) ? state.service : v.services[0];
+  $('bkPickup').value = state.search.pickup || $('pickupLoc').value;
+  $('bkDrop').value = state.search.drop || $('dropLoc').value;
+  $('bkPickupDT').value = state.search.pickupAt || $('pickupDT').value;
+  $('bkReturnDT').value = state.search.returnAt || $('returnDT').value;
+  $('bkName').value = state.user.name || '';
+  $('bkPhone').value = state.user.phone || '';
+  $('bkKm').value = 50;
+  $('bkError').classList.add('hidden');
+  updateBookingSummary();
+  openModal('modal-booking');
+}
+
+function updateBookingSummary() {
+  const v = state.booking.vehicle; if (!v) return;
+  const fare = calcFare(v.tier, $('bkKm').value);
+  const extras = addonsTotal();
+  $('bkBase').textContent = fmt(fare.total);
+  $('bkFareNote').textContent = fare.extraKm > 0 ? `${fmt(fare.fixed)} + ${fare.extraKm} KM x ${fmt(fare.perKm)}` : `fixed rate, up to ${TIERS[v.tier].baseKm} KM`;
+  $('bkAddonTotal').textContent = fmt(extras);
+  $('bkTotal').textContent = fmt(fare.total + extras);
+  const names = ADDONS.filter((a) => state.addons.has(a.id)).map((a) => a.name);
+  $('bkAddonList').textContent = names.length ? names.join(', ') : 'None selected';
+}
+$('bkKm').addEventListener('input', updateBookingSummary);
+
+$('bookingForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const v = state.booking.vehicle; if (!v) return;
+  const err = $('bkError'), btn = $('bkSubmit');
+  const km = Number($('bkKm').value);
+  const p = new Date($('bkPickupDT').value), r = new Date($('bkReturnDT').value);
+  let msg = '';
+  if (!$('bkPickup').value.trim()) msg = 'Please enter a pickup location.';
+  else if (isNaN(p) || isNaN(r)) msg = 'Please choose pickup and return date & time.';
+  else if (p < new Date(Date.now() - 60000)) msg = 'Pickup time cannot be in the past.';
+  else if (r <= p) msg = 'Return time must be after pickup time.';
+  else if (!(km > 0)) msg = 'Enter an estimated distance greater than 0 KM.';
+  else if ($('bkName').value.trim().length < 2) msg = 'Please enter a contact name.';
+  else if ($('bkPhone').value.replace(/\D/g, '').length < 9) msg = 'Please enter a valid contact phone number.';
+  err.textContent = msg; err.classList.toggle('hidden', !msg);
+  if (msg) return;
+
+  btn.disabled = true; btn.textContent = 'Confirming...';
+  try {
+    const res = await api('/bookings', { method: 'POST', body: {
+      vehicleId: v.id, service: $('bkService').value,
+      pickup: $('bkPickup').value.trim(), dropoff: $('bkDrop').value.trim() || $('bkPickup').value.trim(),
+      pickupAt: $('bkPickupDT').value, returnAt: $('bkReturnDT').value,
+      distanceKm: km, addons: Array.from(state.addons),
+      contactName: $('bkName').value.trim(), contactPhone: $('bkPhone').value.trim()
+    }});
+    $('bkRef').textContent = res.reference;
+    $('bkDoneNote').textContent = `${v.name} for ${SERVICES[$('bkService').value]?.label || 'your trip'}. Estimated total ${$('bkTotal').textContent}. We will contact you shortly to confirm.`;
+    $('bookingView').classList.add('hidden'); $('bookingDone').classList.remove('hidden');
+    state.addons = new Set();
+  } catch (ex) {
+    err.textContent = ex.message; err.classList.remove('hidden');
+  } finally { btn.disabled = false; btn.textContent = 'Confirm booking'; }
+});
+
+/* ---------- Services ---------- */
+function renderServices() {
+  $('serviceGrid').innerHTML = SERVICE_CARDS.map((s, i) => `
+    <article class="reveal flex flex-col rounded-2xl border border-slate-200 bg-slate-50 p-6 transition hover:-translate-y-1 hover:border-gold-500 hover:shadow-lg" style="transition-delay:${i * 60}ms">
+      <span class="grid h-12 w-12 place-items-center rounded-xl bg-navy-900 text-2xl" aria-hidden="true">${s.icon}</span>
+      <h3 class="mt-4 font-display text-lg font-bold text-navy-900">${esc(s.title)}</h3>
+      <p class="mt-2 flex-1 text-sm text-slate-600">${esc(s.text)}</p>
+      <button data-svc-index="${i}" class="mt-5 self-start text-sm font-semibold text-gold-600 hover:underline">${esc(s.cta)} &rarr;</button>
+    </article>`).join('');
+}
+$('serviceGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-svc-index]'); if (!b) return;
+  const a = SERVICE_CARDS[Number(b.dataset.svcIndex)].action;
+  if (a.type === 'addons') return openAddons();
+  state.service = a.value; renderServiceTabs();
+  state.searched = true; state.tab = 'all';
+  renderFleetTabs(); renderFleet();
+  $('fleet').scrollIntoView({ behavior: 'smooth' });
+  toast('Showing vehicles for ' + SERVICES[a.value].label);
+});
+
+/* ---------- Pricing + calculator ---------- */
+function renderPricing() {
+  $('pricingCards').innerHTML = Object.entries(TIERS).map(([key, t], i) => {
+    const popular = key === 'premium';
+    return `<div class="reveal relative rounded-2xl p-6 ${popular ? 'bg-gold-500 text-navy-900 shadow-2xl shadow-gold-500/20 md:-translate-y-2' : 'bg-white/5 text-white ring-1 ring-white/10'}" style="transition-delay:${i * 80}ms">
+      ${popular ? '<span class="absolute -top-3 left-6 rounded-full bg-navy-900 px-3 py-1 text-xs font-bold text-gold-400">Most popular</span>' : ''}
+      <p class="text-sm font-bold uppercase tracking-wider ${popular ? 'text-navy-900/70' : 'text-gold-400'}">${t.label} Class</p>
+      <p class="mt-1 text-sm ${popular ? 'text-navy-900/80' : 'text-slate-300'}">${esc(t.blurb)}</p>
+      <p class="mt-5 font-display text-4xl font-extrabold">${fmt(t.fixed)}</p>
+      <p class="text-sm ${popular ? 'text-navy-900/70' : 'text-slate-400'}">Fixed rate &middot; first ${t.baseKm} KM</p>
+      <div class="mt-5 rounded-xl p-3 text-sm ${popular ? 'bg-navy-900/10' : 'bg-white/5'}">
+        <span class="font-semibold">${fmt(t.perKm)} / KM</span> after ${t.baseKm} KM
+      </div>
+      <button data-price-tier="${key}" class="mt-5 w-full rounded-lg py-2.5 text-sm font-bold transition ${popular ? 'bg-navy-900 text-white hover:bg-navy-700' : 'bg-gold-500 text-navy-900 hover:bg-gold-400'}">Estimate my fare</button>
+    </div>`;
+  }).join('');
+
+  const distances = [50, 100, 200, 300];
+  $('compareTable').innerHTML = `<thead><tr class="text-xs uppercase tracking-wide text-slate-400">
+      <th class="px-3 py-2 font-semibold">Class</th><th class="px-3 py-2 font-semibold">Fixed (50 KM)</th><th class="px-3 py-2 font-semibold">Per KM after</th>
+      ${distances.slice(1).map((d) => `<th class="px-3 py-2 font-semibold">${d} KM</th>`).join('')}</tr></thead>
+    <tbody>${Object.entries(TIERS).map(([key, t]) => `<tr class="border-t border-white/10">
+      <td class="px-3 py-3 font-semibold text-gold-400">${t.label}</td><td class="px-3 py-3">${fmt(t.fixed)}</td><td class="px-3 py-3">${fmt(t.perKm)}</td>
+      ${distances.slice(1).map((d) => `<td class="px-3 py-3 font-semibold">${fmt(calcFare(key, d).total)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+
+  $('calcTier').innerHTML = Object.entries(TIERS).map(([k, t]) => `<option value="${k}">${t.label} (${esc(t.blurb)})</option>`).join('');
+  $('calcTier').value = 'premium';
+  $('kmChips').innerHTML = [50, 100, 250, 500].map((n) => `<button type="button" data-km="${n}" class="rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-600 hover:border-navy-900 hover:text-navy-900">${n} KM</button>`).join('');
+  updateCalc();
+}
+function updateCalc() {
+  const tier = $('calcTier').value;
+  const raw = $('calcKm').value;
+  const km = Math.max(0, Math.min(5000, Number(raw) || 0));
+  const f = calcFare(tier, km);
+  $('outFixed').textContent = fmt(f.fixed);
+  $('outExtraKm').textContent = f.extraKm + ' KM';
+  $('outExtra').textContent = fmt(f.extra);
+  $('outTotal').textContent = fmt(f.total);
+  $('outFormula').textContent = km <= 50
+    ? `${km} KM is within 50 KM, so the total is the fixed rate (${fmt(f.fixed)}).`
+    : `${fmt(f.fixed)} + (${km} - 50) x ${fmt(f.perKm)} = ${fmt(f.total)}`;
+}
+function setCalc(tier, km) {
+  if (tier) $('calcTier').value = tier;
+  $('calcKm').value = km; $('calcRange').value = Math.min(1000, km);
+  updateCalc();
+}
+$('calcTier').addEventListener('change', updateCalc);
+$('calcKm').addEventListener('input', () => { $('calcRange').value = Math.min(1000, Number($('calcKm').value) || 0); updateCalc(); });
+$('calcRange').addEventListener('input', () => { $('calcKm').value = $('calcRange').value; updateCalc(); });
+$('kmChips').addEventListener('click', (e) => { const b = e.target.closest('[data-km]'); if (b) setCalc(null, Number(b.dataset.km)); });
+$('pricingCards').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-price-tier]'); if (!b) return;
+  setCalc(b.dataset.priceTier, Number($('calcKm').value) || 120);
+  $('estimator').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+/* ---------- Destinations ---------- */
+function renderDestinations() {
+  $('destGrid').innerHTML = DESTINATIONS.map((d, i) => `
+    <article class="reveal group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl" style="transition-delay:${i * 60}ms">
+      <div class="relative grid h-44 place-items-center bg-gradient-to-br ${d.grad}">
+        <span class="text-6xl transition duration-300 group-hover:scale-110" aria-hidden="true">${d.icon}</span>
+        <span class="absolute bottom-3 left-4 font-display text-2xl font-extrabold text-white drop-shadow">${esc(d.name)}</span>
+        <span class="absolute right-3 top-3 rounded-full bg-black/30 px-2.5 py-1 text-xs font-semibold text-white">~${d.km} KM from Colombo</span>
+      </div>
+      <div class="p-5">
+        <p class="text-sm text-slate-600">${esc(d.guide)}</p>
+        <ul class="mt-3 flex flex-wrap gap-1.5">${d.highlights.map((h) => `<li class="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600">${esc(h)}</li>`).join('')}</ul>
+        <div class="mt-4 flex items-center justify-between gap-3 rounded-xl bg-slate-50 p-3 text-sm">
+          <div><p class="text-xs text-slate-500">Recommended</p><p class="font-semibold text-navy-900">${esc(d.vehicle)}</p></div>
+          <div class="text-right"><p class="text-xs text-slate-500">Best time</p><p class="font-semibold text-navy-900">${esc(d.best)}</p></div>
+        </div>
+        <button data-dest="${i}" class="mt-4 w-full rounded-lg border border-navy-900 py-2.5 text-sm font-semibold text-navy-900 transition hover:bg-navy-900 hover:text-white">Estimate fare (${TIERS[d.tier].label})</button>
+      </div>
+    </article>`).join('');
+}
+$('destGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-dest]'); if (!b) return;
+  const d = DESTINATIONS[Number(b.dataset.dest)];
+  setCalc(d.tier, d.km);
+  $('estimator').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  toast(`${d.name}: ${fmt(calcFare(d.tier, d.km).total)} one-way estimate`);
+});
+
+/* ---------- Contact ---------- */
+$('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.currentTarget, msg = $('contactMsg'), btn = $('contactBtn');
+  const show = (text, ok) => {
+    msg.textContent = text; msg.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'bg-emerald-50', 'text-emerald-700');
+    msg.classList.add(...(ok ? ['bg-emerald-50', 'text-emerald-700'] : ['bg-red-50', 'text-red-700']));
+  };
+  const name = f.name.value.trim(), email = f.email.value.trim(), message = f.message.value.trim();
+  if (name.length < 2) return show('Please enter your name.', false);
+  if (!validEmail(email)) return show('Please enter a valid email address.', false);
+  if (message.length < 10) return show('Please write a message of at least 10 characters.', false);
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try { await api('/contact', { method: 'POST', body: { name, email, message } }); show('Thanks! Your message has been sent.', true); f.reset(); }
+  catch (ex) { show(ex.message, false); }
+  finally { btn.disabled = false; btn.textContent = 'Send message'; }
+});
+
+/* ---------- Scroll reveal ---------- */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('show'); revealObs.unobserve(en.target); } });
+}, { threshold: 0.12 });
+const observeReveals = () => qsa('.reveal:not(.show)').forEach((el) => revealObs.observe(el));
+
+/* ---------- Init ---------- */
+async function init() {
+  $('year').textContent = new Date().getFullYear();
+  loadSession(); initDates(); setService('self-drive', { silent: true });
+  renderServices(); renderPricing(); renderDestinations(); renderFleetTabs();
+  $('fleetGrid').innerHTML = Array.from({ length: 3 }, () => '<div class="h-80 animate-pulse rounded-2xl bg-slate-200"></div>').join('');
+  observeReveals();
+  try {
+    state.vehicles = await api('/vehicles');
+  } catch (err) {
+    $('fleetGrid').innerHTML = `<p class="col-span-full rounded-xl bg-red-50 p-4 text-sm text-red-700">Could not load vehicles: ${esc(err.message)}</p>`;
+    return;
+  }
+  renderTierCards(); renderFleet(); observeReveals();
+}
+init();
+</script>
+</body>
+</html>
